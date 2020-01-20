@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BudgetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BudgetRecords">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BudgetID" Type="int" />
+          <Property Name="RecordName" Type="nvarchar" MaxLength="200" />
+          <Property Name="RecordGroupID" Type="int" />
+          <Property Name="PlannedCost" Type="int" />
+          <Property Name="RealCost" Type="int" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Budgets">
+          <Key>
+            <PropertyRef Name="BudgetID" />
+          </Key>
+          <Property Name="BudgetID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="BudgetName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Income" Type="int" Nullable="false" />
+          <Property Name="Expenses" Type="int" Nullable="false" />
+          <Property Name="Balance" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RecordGroups">
+          <Key>
+            <PropertyRef Name="RecordGroupID" />
+          </Key>
+          <Property Name="RecordGroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecordGroupName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BudgetRec__Budge__0A9D95DB">
+          <End Role="Budgets" Type="Self.Budgets" Multiplicity="0..1" />
+          <End Role="BudgetRecords" Type="Self.BudgetRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Budgets">
+              <PropertyRef Name="BudgetID" />
+            </Principal>
+            <Dependent Role="BudgetRecords">
+              <PropertyRef Name="BudgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BudgetRec__Recor__0B91BA14">
+          <End Role="RecordGroups" Type="Self.RecordGroups" Multiplicity="0..1" />
+          <End Role="BudgetRecords" Type="Self.BudgetRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecordGroups">
+              <PropertyRef Name="RecordGroupID" />
+            </Principal>
+            <Dependent Role="BudgetRecords">
+              <PropertyRef Name="RecordGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Budgets__UserID__07C12930">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Budgets" Type="Self.Budgets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Budgets">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BudgetDBModelStoreContainer">
+          <EntitySet Name="BudgetRecords" EntityType="Self.BudgetRecords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Budgets" EntityType="Self.Budgets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecordGroups" EntityType="Self.RecordGroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BudgetRec__Budge__0A9D95DB" Association="Self.FK__BudgetRec__Budge__0A9D95DB">
+            <End Role="Budgets" EntitySet="Budgets" />
+            <End Role="BudgetRecords" EntitySet="BudgetRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BudgetRec__Recor__0B91BA14" Association="Self.FK__BudgetRec__Recor__0B91BA14">
+            <End Role="RecordGroups" EntitySet="RecordGroups" />
+            <End Role="BudgetRecords" EntitySet="BudgetRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Budgets__UserID__07C12930" Association="Self.FK__Budgets__UserID__07C12930">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Budgets" EntitySet="Budgets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BudgetDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BudgetRecords">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BudgetID" Type="Int32" />
+          <Property Name="RecordName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RecordGroupID" Type="Int32" />
+          <Property Name="PlannedCost" Type="Int32" />
+          <Property Name="RealCost" Type="Int32" />
+          <Property Name="Comments" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Budgets" Relationship="Self.FK__BudgetRec__Budge__0A9D95DB" FromRole="BudgetRecords" ToRole="Budgets" />
+          <NavigationProperty Name="RecordGroups" Relationship="Self.FK__BudgetRec__Recor__0B91BA14" FromRole="BudgetRecords" ToRole="RecordGroups" />
+        </EntityType>
+        <EntityType Name="Budgets">
+          <Key>
+            <PropertyRef Name="BudgetID" />
+          </Key>
+          <Property Name="BudgetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="BudgetName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Income" Type="Int32" Nullable="false" />
+          <Property Name="Expenses" Type="Int32" Nullable="false" />
+          <Property Name="Balance" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BudgetRecords" Relationship="Self.FK__BudgetRec__Budge__0A9D95DB" FromRole="Budgets" ToRole="BudgetRecords" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Budgets__UserID__07C12930" FromRole="Budgets" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="RecordGroups">
+          <Key>
+            <PropertyRef Name="RecordGroupID" />
+          </Key>
+          <Property Name="RecordGroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecordGroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BudgetRecords" Relationship="Self.FK__BudgetRec__Recor__0B91BA14" FromRole="RecordGroups" ToRole="BudgetRecords" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Budgets" Relationship="Self.FK__Budgets__UserID__07C12930" FromRole="Users" ToRole="Budgets" />
+        </EntityType>
+        <Association Name="FK__BudgetRec__Budge__0A9D95DB">
+          <End Role="Budgets" Type="Self.Budgets" Multiplicity="0..1" />
+          <End Role="BudgetRecords" Type="Self.BudgetRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Budgets">
+              <PropertyRef Name="BudgetID" />
+            </Principal>
+            <Dependent Role="BudgetRecords">
+              <PropertyRef Name="BudgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BudgetRec__Recor__0B91BA14">
+          <End Role="RecordGroups" Type="Self.RecordGroups" Multiplicity="0..1" />
+          <End Role="BudgetRecords" Type="Self.BudgetRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecordGroups">
+              <PropertyRef Name="RecordGroupID" />
+            </Principal>
+            <Dependent Role="BudgetRecords">
+              <PropertyRef Name="RecordGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Budgets__UserID__07C12930">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Budgets" Type="Self.Budgets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Budgets">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BudgetDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BudgetRecords" EntityType="Self.BudgetRecords" />
+          <EntitySet Name="Budgets" EntityType="Self.Budgets" />
+          <EntitySet Name="RecordGroups" EntityType="Self.RecordGroups" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK__BudgetRec__Budge__0A9D95DB" Association="Self.FK__BudgetRec__Budge__0A9D95DB">
+            <End Role="Budgets" EntitySet="Budgets" />
+            <End Role="BudgetRecords" EntitySet="BudgetRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BudgetRec__Recor__0B91BA14" Association="Self.FK__BudgetRec__Recor__0B91BA14">
+            <End Role="RecordGroups" EntitySet="RecordGroups" />
+            <End Role="BudgetRecords" EntitySet="BudgetRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Budgets__UserID__07C12930" Association="Self.FK__Budgets__UserID__07C12930">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Budgets" EntitySet="Budgets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BudgetDBModelStoreContainer" CdmEntityContainer="BudgetDBEntities">
+          <EntitySetMapping Name="BudgetRecords">
+            <EntityTypeMapping TypeName="BudgetDBModel.BudgetRecords">
+              <MappingFragment StoreEntitySet="BudgetRecords">
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+                <ScalarProperty Name="BudgetID" ColumnName="BudgetID" />
+                <ScalarProperty Name="RecordName" ColumnName="RecordName" />
+                <ScalarProperty Name="RecordGroupID" ColumnName="RecordGroupID" />
+                <ScalarProperty Name="PlannedCost" ColumnName="PlannedCost" />
+                <ScalarProperty Name="RealCost" ColumnName="RealCost" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Budgets">
+            <EntityTypeMapping TypeName="BudgetDBModel.Budgets">
+              <MappingFragment StoreEntitySet="Budgets">
+                <ScalarProperty Name="BudgetID" ColumnName="BudgetID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BudgetName" ColumnName="BudgetName" />
+                <ScalarProperty Name="Income" ColumnName="Income" />
+                <ScalarProperty Name="Expenses" ColumnName="Expenses" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecordGroups">
+            <EntityTypeMapping TypeName="BudgetDBModel.RecordGroups">
+              <MappingFragment StoreEntitySet="RecordGroups">
+                <ScalarProperty Name="RecordGroupID" ColumnName="RecordGroupID" />
+                <ScalarProperty Name="RecordGroupName" ColumnName="RecordGroupName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BudgetDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
